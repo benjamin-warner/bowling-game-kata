@@ -5,14 +5,16 @@
 function frame(){
 	this.rolls = [];
 
+	//Sets the number of pins hit for a roll in a frame
 	this.setRollPoints = function(pins){
 		this.rolls.push(pins);
 	}
-
+	//returns the number of rolls in a aframe
 	this.rollNumber = function(){
 		return this.rolls.length + 1;
 	}
 
+	//returns the score of a frame, not including bonus
 	this.frameScore = function(){
 		var total = 0;
 		for(var i = 0; i < this.rolls.length; i++)
@@ -20,15 +22,18 @@ function frame(){
 		return total;
 	}
 
+	//returns the points of a roll in a frame
 	this.rollPoints = function(rollNo){
 		return this.rolls[rollNo];
 	}
 
+	//returns true if a frame was a strike
 	this.isStrike = function(){
 		return this.rolls.length >= 1
 			&& this.rolls[0] == 10;
 	}
 
+	//returns true if a frame was as pare
 	this.isSpare = function(){
 		return this.rolls.length == 2
 			&& this.rolls[0] + this.rolls[1] == 10;
@@ -67,7 +72,9 @@ function Game(){
 		}
 	}
 
+	//returns the bonus for a strike on a given frame
 	this.frameStrikeBonus = function(frameIndex){
+		//Maybe the logic can be simplified but it takes care of special cases
 		if(frameIndex != 9){
 			if(this.frames[frameIndex+1].isStrike())
 				if(frameIndex == 8)
@@ -83,6 +90,7 @@ function Game(){
 			 + this.frames[frameIndex].rollPoints(2);
 	}
 
+	//returns the bonus for a spare on a given frame
 	this.frameSpareBonus = function(frameIndex){
 		if(frameIndex < 9)
 			return this.frames[frameIndex+1].rollPoints(0);
